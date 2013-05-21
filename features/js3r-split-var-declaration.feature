@@ -2,7 +2,7 @@ Feature: Split var declaration
 
   Scenario: Split simple var
     When I insert "var a, b, c;"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I press "C-c C-m sv"
     Then I should see:
     """
@@ -14,7 +14,7 @@ Feature: Split var declaration
 
   Scenario: Split vars with values
     When I insert "var a = 1, b = '2', c = { d: 3 };"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I press "C-c C-m sv"
     Then I should see:
     """
@@ -33,7 +33,7 @@ Feature: Split var declaration
             d: 3
         };
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I press "C-c C-m sv"
     Then I should see:
     """

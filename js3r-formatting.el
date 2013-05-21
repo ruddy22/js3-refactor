@@ -1,19 +1,19 @@
-(defun js2r--looking-at-object-start ()
+(defun js3r--looking-at-object-start ()
   (and (looking-at "{")
        (not (looking-back ")[\s\n]*"))))
 
-(defun js2r--goto-closest-object-start ()
-  (while (not (js2r--looking-at-object-start))
+(defun js3r--goto-closest-object-start ()
+  (while (not (js3r--looking-at-object-start))
     (if (eq (car (syntax-ppss)) 0)
         (error "Cursor is not on an object")
       (goto-char (nth 1 (syntax-ppss))))))
 
-(defun js2r--ensure-newline ()
+(defun js3r--ensure-newline ()
   (if (and (not (looking-at "\s*\n"))
            (not (looking-back "\n\s*")))
       (newline-and-indent)))
 
-(defun js2r--ensure-just-one-space ()
+(defun js3r--ensure-just-one-space ()
   (interactive)
   (while (or (looking-at "\s*\n")
              (looking-back "\n\s*"))
@@ -25,12 +25,12 @@
     (just-one-space))
   (just-one-space))
 
-(defmacro js2r--create-object-whitespace-traverser (name func)
+(defmacro js3r--create-object-whitespace-traverser (name func)
   `(defun ,name ()
      (interactive)
      (save-excursion
-       (if (not (js2r--looking-at-object-start))
-           (js2r--goto-closest-object-start))
+       (if (not (js3r--looking-at-object-start))
+           (js3r--goto-closest-object-start))
        (let ((end (make-marker)))
          (set-marker end (save-excursion
                            (forward-list)
@@ -38,7 +38,7 @@
          (forward-char)
          ,func
          (while (< (point) end)
-           (while (js2r--point-inside-string-p)
+           (while (js3r--point-inside-string-p)
              (forward-char))
            (when (looking-at ",")
              (forward-char)
@@ -49,10 +49,10 @@
          (backward-char)
          ,func))))
 
-(js2r--create-object-whitespace-traverser js2r-expand-object
-                                        (js2r--ensure-newline))
+(js3r--create-object-whitespace-traverser js3r-expand-object
+                                        (js3r--ensure-newline))
 
-(js2r--create-object-whitespace-traverser js2r-contract-object
-                                        (js2r--ensure-just-one-space))
+(js3r--create-object-whitespace-traverser js3r-contract-object
+                                        (js3r--ensure-just-one-space))
 
-(provide 'js2r-formatting)
+(provide 'js3r-formatting)

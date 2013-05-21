@@ -1,31 +1,31 @@
-# js2-refactor.el [![Build Status](https://secure.travis-ci.org/magnars/js2-refactor.el.png)](http://travis-ci.org/magnars/js2-refactor.el)
+# js3-refactor.el [![Build Status](https://secure.travis-ci.org/magnars/js3-refactor.el.png)](http://travis-ci.org/magnars/js3-refactor.el)
 
 A JavaScript refactoring library for emacs.
 
 This is a collection of small refactoring functions to further the idea of a
-JavaScript IDE in Emacs that started with js2-mode.
+JavaScript IDE in Emacs that started with js3-mode.
 
 ## Breaking change in 0.6.0
 
 You now choose your own keybinding scheme. If you just want what you had
 before this change, add this to your init:
 
-    (js2r-add-keybindings-with-prefix "C-c C-m")
+    (js3r-add-keybindings-with-prefix "C-c C-m")
 
 See **Setup keybindings** below for more.
 
 ## Installation
 
-I highly recommend installing js2-refactor through elpa.
+I highly recommend installing js3-refactor through elpa.
 
 It's available on [melpa](http://melpa.milkbox.net/):
 
-    M-x package-install js2-refactor
+    M-x package-install js3-refactor
 
 You can also install the dependencies on your own, and just dump
-js2-refactor in your path somewhere:
+js3-refactor in your path somewhere:
 
- * js2-mode https://github.com/mooz/js2-mode/
+ * js3-mode https://github.com/mooz/js3-mode/
  * dash https://github.com/magnars/dash.el
  * s https://github.com/magnars/s.el
  * multiple-cursors https://github.com/magnars/multiple-cursors.el
@@ -37,26 +37,26 @@ vars, method calls and functions for refactorings.
 
 Then add this to your emacs settings:
 
-    (require 'js2-refactor)
+    (require 'js3-refactor)
 
 ## Setup keybindings
 
-All functions in js2-refactor have a two-letter mnemonic shortcut. For
+All functions in js3-refactor have a two-letter mnemonic shortcut. For
 instance, extract-function is `ef`. You get to choose how those are bound.
 Here's how:
 
-    (js2r-add-keybindings-with-prefix "C-c C-m")
+    (js3r-add-keybindings-with-prefix "C-c C-m")
     ;; eg. extract function with `C-c C-m ef`.
 
 If you would rather have a modifier key, instead of a prefix, do:
 
-    (js2r-add-keybindings-with-modifier "C-s-")
+    (js3r-add-keybindings-with-modifier "C-s-")
     ;; eg. extract function with `C-s-e C-s-f`.
 
 If neither of these appeal to your sense of keyboard layout aesthetics, feel free
 to pick and choose your own keybindings with a smattering of:
 
-    (define-key js2-mode-map (kbd "C-c C-e C-f") 'js2r-extract-function)
+    (define-key js3-mode-map (kbd "C-c C-e C-f") 'js3r-extract-function)
 
 ## Refactorings
 
@@ -97,7 +97,7 @@ A list of some wanted improvements for the current refactorings.
 
 ## Contributions
 
-* [Matt Briggs](https://github.com/mbriggs) contributed `js2r-add-to-globals-annotation`
+* [Matt Briggs](https://github.com/mbriggs) contributed `js3r-add-to-globals-annotation`
 
 Thanks!
 

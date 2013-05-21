@@ -9,7 +9,7 @@ Feature: JS Slurp
     ghi();
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "def"
     And I press "C-c C-m sl"
     Then I should see:
@@ -33,7 +33,7 @@ Feature: JS Slurp
     });
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "abc"
     And I press "C-c C-m sl"
     Then I should see:
@@ -55,7 +55,7 @@ Feature: JS Slurp
     ghi();
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "abc"
     And I press "C-c C-m sl"
     Then I should see:
@@ -74,7 +74,7 @@ Feature: JS Slurp
     validations.date();
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the end of the word "function"
     And I press "C-c C-m sl"
     Then I should see:
@@ -93,7 +93,7 @@ Feature: JS Slurp
     ghi();
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "abc"
     And I press "C-c C-m sl"
     Then I should see:
@@ -114,7 +114,7 @@ Feature: JS Slurp
     ghi();
     jkl();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "else"
     And I press "C-c C-m sl"
     Then I should see:

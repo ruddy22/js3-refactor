@@ -7,7 +7,7 @@ Feature: Extract function
         console.log("abc");
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "console.log"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -28,7 +28,7 @@ Feature: Extract function
         console.log("abc");
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "console.log"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -51,7 +51,7 @@ Feature: Extract function
         }
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "console.log"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -74,7 +74,7 @@ Feature: Extract function
         return "abc";
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "return"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -95,7 +95,7 @@ Feature: Extract function
         return num + 1;
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "return"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -117,7 +117,7 @@ Feature: Extract function
         return num + inc;
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "return"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -141,7 +141,7 @@ Feature: Extract function
         return num + inc;
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I go to the front of the word "var"
     And I set the mark
     And I go to the end of the word "7"
@@ -168,7 +168,7 @@ Feature: Extract function
         return num + inc;
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I go to the front of the word "var"
     And I set the mark
     And I go to the end of the word "return"
@@ -195,7 +195,7 @@ Feature: Extract function
         }
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "return"
     And I press "C-c C-m ef name RET"
     Then I should see:
@@ -221,7 +221,7 @@ Feature: Extract function
         }
     }
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I select "console.log"
     And I press "C-c C-m em name RET"
     Then I should see:

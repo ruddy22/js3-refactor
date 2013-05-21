@@ -3,7 +3,7 @@ Feature: Rename variable
   Scenario: Rename a single name
     Given delete-selection-mode is active
     When I insert "var abc = 123;"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the front of the word "abc"
     And I press "C-c C-m rv"
     And I type "def"
@@ -12,7 +12,7 @@ Feature: Rename variable
   Scenario: Rename two instances of name
     Given delete-selection-mode is active
     When I insert "var abc = 123, def = abc;"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to character ";"
     And I press "C-b"
     And I press "C-c C-m rv"
@@ -22,7 +22,7 @@ Feature: Rename variable
   Scenario: Rename function params
     Given delete-selection-mode is active
     When I insert "function test(abc) { alert(abc); }"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the end of the word "alert"
     And I press "C-f"
     And I press "C-c C-m rv"
@@ -32,7 +32,7 @@ Feature: Rename variable
   Scenario: Don't rename object literal keys
     Given delete-selection-mode is active
     When I insert "var abc = { abc: 123 };"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the end of the word "var"
     And I press "C-f"
     And I press "C-c C-m rv"
@@ -42,7 +42,7 @@ Feature: Rename variable
   Scenario: Don't rename object property access
     Given delete-selection-mode is active
     When I insert "var abc = this.abc;"
-    And I turn on js2-mode
+    And I turn on js3-mode
     And I go to the end of the word "var"
     And I press "C-f"
     And I press "C-c C-m rv"

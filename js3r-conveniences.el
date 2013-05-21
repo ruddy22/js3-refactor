@@ -1,9 +1,9 @@
 ;; Console.log stuff at point (or region)
 
-(defun js2r-log-this ()
+(defun js3r-log-this ()
   (interactive)
-  (js2r--guard)
-  (let* ((log-info (js2r--figure-out-what-to-log-where))
+  (js3r--guard)
+  (let* ((log-info (js3r--figure-out-what-to-log-where))
          (stmt (car log-info))
          (pos (cdr log-info)))
     (save-excursion
@@ -13,44 +13,44 @@
       (newline-and-indent)
       (insert "console.log(\"" stmt " = \", " stmt ");"))))
 
-(defun js2r--figure-out-what-to-log-where ()
-  (let ((parent-stmt (js2-node-parent-stmt (js2-node-at-point))))
+(defun js3r--figure-out-what-to-log-where ()
+  (let ((parent-stmt (js3-node-parent-stmt (js3-node-at-point))))
 
     (if (use-region-p)
         (cons (buffer-substring (region-beginning) (region-end))
-              (js2r--find-suitable-log-position-around parent-stmt))
+              (js3r--find-suitable-log-position-around parent-stmt))
 
-      (let* ((node (js2r--name-node-at-point))
-             (parent (js2-node-parent node)))
+      (let* ((node (js3r--name-node-at-point))
+             (parent (js3-node-parent node)))
 
         (cond
 
-         ((js2-function-node-p parent)
-          (cons (js2-name-node-name node)
-                (js2-node-abs-pos (js2-function-node-body parent))))
+         ((js3-function-node-p parent)
+          (cons (js3-name-node-name node)
+                (js3-node-abs-pos (js3-function-node-body parent))))
 
-         ((js2-prop-get-node-p parent)
-          (cons (buffer-substring (js2-node-abs-pos parent) (js2-node-abs-end parent))
-                (js2r--find-suitable-log-position-around parent-stmt)))
+         ((js3-prop-get-node-p parent)
+          (cons (buffer-substring (js3-node-abs-pos parent) (js3-node-abs-end parent))
+                (js3r--find-suitable-log-position-around parent-stmt)))
 
          (:else
-          (cons (js2-name-node-name node)
-                (js2r--find-suitable-log-position-around parent-stmt))))))))
+          (cons (js3-name-node-name node)
+                (js3r--find-suitable-log-position-around parent-stmt))))))))
 
-(defun js2r--find-suitable-log-position-around (parent-stmt)
-  (if (js2-return-node-p parent-stmt)
+(defun js3r--find-suitable-log-position-around (parent-stmt)
+  (if (js3-return-node-p parent-stmt)
       (save-excursion
-        (goto-char (js2-node-abs-pos parent-stmt))
+        (goto-char (js3-node-abs-pos parent-stmt))
         (beginning-of-line)
         (forward-char -1)
         (point))
-    (js2-node-abs-end parent-stmt)))
+    (js3-node-abs-end parent-stmt)))
 
 ;; Split a string
 
-(defun js2r-split-string ()
+(defun js3r-split-string ()
   (interactive)
-  (when (js2r--point-inside-string-p)
+  (when (js3r--point-inside-string-p)
     (if (looking-back " \"")
         (progn
           (forward-char -2)
@@ -80,44 +80,44 @@
       (transpose-lines -1))
     (move-to-column col)))
 
-(defun js2r--current-line-is-prefixed-with-list-item-start ()
+(defun js3r--current-line-is-prefixed-with-list-item-start ()
   (save-excursion
     (back-to-indentation)
     (looking-back "\\({\\|\\[\\|,\\)\\(\s\\|\n\\)*"))) ; { or [ or , then space
 
-(defun js2r--current-line-is-postfixed-with-list-item-end ()
+(defun js3r--current-line-is-postfixed-with-list-item-end ()
   (save-excursion
     (end-of-line)
     (or (looking-back ",\s*") ; line ends in comma
         (looking-at "\\(\s\\|\n\\)*\\(\\]\\|}\\)")))) ; space then ] or }
 
-(defun js2r--current-line-is-a-list-item ()
-  (and (js2r--current-line-is-prefixed-with-list-item-start)
-       (js2r--current-line-is-postfixed-with-list-item-end)))
+(defun js3r--current-line-is-a-list-item ()
+  (and (js3r--current-line-is-prefixed-with-list-item-start)
+       (js3r--current-line-is-postfixed-with-list-item-end)))
 
-(defun js2r--next-line-is-a-list-item ()
+(defun js3r--next-line-is-a-list-item ()
   (save-excursion
     (forward-line)
-    (js2r--current-line-is-a-list-item)))
+    (js3r--current-line-is-a-list-item)))
 
-(defun js2r--previous-line-is-a-list-item ()
+(defun js3r--previous-line-is-a-list-item ()
   (save-excursion
     (forward-line -1)
-    (js2r--current-line-is-a-list-item)))
+    (js3r--current-line-is-a-list-item)))
 
-(defun js2r--current-line-has-comma ()
+(defun js3r--current-line-has-comma ()
   (save-excursion
     (end-of-line)
     (looking-back ",\s*")))
 
-(defun js2r--previous-line-has-comma ()
+(defun js3r--previous-line-has-comma ()
   (save-excursion
     (forward-line -1)
-    (js2r--current-line-has-comma)))
+    (js3r--current-line-has-comma)))
 
-(defun js2r--move-line-down-as-list-item ()
+(defun js3r--move-line-down-as-list-item ()
   (move-line-down)
-  (if (not (js2r--previous-line-has-comma))
+  (if (not (js3r--previous-line-has-comma))
       (save-excursion
         (end-of-line)
         (delete-char -1)
@@ -125,9 +125,9 @@
         (end-of-line)
         (insert ","))))
 
-(defun js2r--move-line-up-as-list-item ()
+(defun js3r--move-line-up-as-list-item ()
   (move-line-up)
-  (if (not (js2r--current-line-has-comma))
+  (if (not (js3r--current-line-has-comma))
       (save-excursion
         (end-of-line)
         (insert ",")
@@ -135,20 +135,20 @@
         (end-of-line)
         (delete-char -1))))
 
-(defun js2r-move-line-down ()
+(defun js3r-move-line-down ()
   (interactive)
-  (if (and (js2r--current-line-is-a-list-item)
-           (js2r--next-line-is-a-list-item))
-      (js2r--move-line-down-as-list-item)
+  (if (and (js3r--current-line-is-a-list-item)
+           (js3r--next-line-is-a-list-item))
+      (js3r--move-line-down-as-list-item)
     (move-line-down))
   (funcall indent-line-function))
 
-(defun js2r-move-line-up ()
+(defun js3r-move-line-up ()
   (interactive)
-  (if (and (js2r--current-line-is-a-list-item)
-           (js2r--previous-line-is-a-list-item))
-      (js2r--move-line-up-as-list-item)
+  (if (and (js3r--current-line-is-a-list-item)
+           (js3r--previous-line-is-a-list-item))
+      (js3r--move-line-up-as-list-item)
     (move-line-up))
   (funcall indent-line-function))
 
-(provide 'js2r-conveniences)
+(provide 'js3r-conveniences)

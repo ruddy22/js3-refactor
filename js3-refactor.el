@@ -1,4 +1,4 @@
-;;; js2-refactor.el --- The beginnings of a JavaScript refactoring library in emacs.
+;;; js3-refactor.el --- The beginnings of a JavaScript refactoring library in emacs.
 
 ;; Copyright (C) 2012 Magnar Sveen
 
@@ -21,13 +21,13 @@
 ;;; Commentary:
 
 ;; This is a collection of small refactoring functions to further the idea of a
-;; JavaScript IDE in Emacs that started with js2-mode.
+;; JavaScript IDE in Emacs that started with js3-mode.
 
 ;; ## Installation
 
 ;; Start by installing the dependencies:
 
-;;  * js2-mode https://github.com/mooz/js2-mode/
+;;  * js3-mode https://github.com/mooz/js3-mode/
 ;;  * dash https://github.com/magnars/dash.el
 ;;  * multiple-cursors https://github.com/magnars/multiple-cursors.el
 
@@ -37,7 +37,7 @@
 
 ;; Then add this to your emacs settings:
 
-;;     (require 'js2-refactor)
+;;     (require 'js3-refactor)
 
 ;; Note: I am working on a smoother installation path through package.el,
 ;; but I haven't had the time to whip this project into that sort of
@@ -82,7 +82,7 @@
 
 ;; ## Contributions
 
-;; * [Matt Briggs](https://github.com/mbriggs) contributed `js2r-add-to-globals-annotation`
+;; * [Matt Briggs](https://github.com/mbriggs) contributed `js3r-add-to-globals-annotation`
 
 ;; Thanks!
 
@@ -104,56 +104,56 @@
 
 ;;; Code:
 
-(require 'js2-mode)
-(require 'js2r-helpers)
-(require 'js2r-formatting)
-(require 'js2r-iife)
-(require 'js2r-vars)
-(require 'js2r-functions)
-(require 'js2r-wrapping)
-(require 'js2r-conditionals)
-(require 'js2r-conveniences)
-(require 'js2r-paredit)
+(require 'js3-mode)
+(require 'js3r-helpers)
+(require 'js3r-formatting)
+(require 'js3r-iife)
+(require 'js3r-vars)
+(require 'js3r-functions)
+(require 'js3r-wrapping)
+(require 'js3r-conditionals)
+(require 'js3r-conveniences)
+(require 'js3r-paredit)
 
 ;;; Settings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar js2r-use-strict nil
-  "When non-nil, js2r inserts strict declarations in IIFEs.")
+(defvar js3r-use-strict nil
+  "When non-nil, js3r inserts strict declarations in IIFEs.")
 
 ;;; Keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun js2r--add-keybindings (key-fn)
-  (define-key js2-mode-map (funcall key-fn "eo") 'js2r-expand-object)
-  (define-key js2-mode-map (funcall key-fn "co") 'js2r-contract-object)
-  (define-key js2-mode-map (funcall key-fn "wi") 'js2r-wrap-buffer-in-iife)
-  (define-key js2-mode-map (funcall key-fn "ig") 'js2r-inject-global-in-iife)
-  (define-key js2-mode-map (funcall key-fn "ev") 'js2r-extract-var)
-  (define-key js2-mode-map (funcall key-fn "iv") 'js2r-inline-var)
-  (define-key js2-mode-map (funcall key-fn "rv") 'js2r-rename-var)
-  (define-key js2-mode-map (funcall key-fn "vt") 'js2r-var-to-this)
-  (define-key js2-mode-map (funcall key-fn "ag") 'js2r-add-to-globals-annotation)
-  (define-key js2-mode-map (funcall key-fn "sv") 'js2r-split-var-declaration)
-  (define-key js2-mode-map (funcall key-fn "ef") 'js2r-extract-function)
-  (define-key js2-mode-map (funcall key-fn "em") 'js2r-extract-method)
-  (define-key js2-mode-map (funcall key-fn "ip") 'js2r-introduce-parameter)
-  (define-key js2-mode-map (funcall key-fn "lp") 'js2r-localize-parameter)
-  (define-key js2-mode-map (funcall key-fn "tf") 'js2r-toggle-function-expression-and-declaration)
-  (define-key js2-mode-map (funcall key-fn "ao") 'js2r-arguments-to-object)
-  (define-key js2-mode-map (funcall key-fn "uw") 'js2r-unwrap)
-  (define-key js2-mode-map (funcall key-fn "wl") 'js2r-wrap-in-for-loop)
-  (define-key js2-mode-map (funcall key-fn "3i") 'js2r-ternary-to-if)
-  (define-key js2-mode-map (funcall key-fn "lt") 'js2r-log-this)
-  (define-key js2-mode-map (funcall key-fn "sl") 'js2r-forward-slurp)
-  (define-key js2-mode-map (kbd "<C-S-down>") 'js2r-move-line-down)
-  (define-key js2-mode-map (kbd "<C-S-up>") 'js2r-move-line-up))
+(defun js3r--add-keybindings (key-fn)
+  (define-key js3-mode-map (funcall key-fn "eo") 'js3r-expand-object)
+  (define-key js3-mode-map (funcall key-fn "co") 'js3r-contract-object)
+  (define-key js3-mode-map (funcall key-fn "wi") 'js3r-wrap-buffer-in-iife)
+  (define-key js3-mode-map (funcall key-fn "ig") 'js3r-inject-global-in-iife)
+  (define-key js3-mode-map (funcall key-fn "ev") 'js3r-extract-var)
+  (define-key js3-mode-map (funcall key-fn "iv") 'js3r-inline-var)
+  (define-key js3-mode-map (funcall key-fn "rv") 'js3r-rename-var)
+  (define-key js3-mode-map (funcall key-fn "vt") 'js3r-var-to-this)
+  (define-key js3-mode-map (funcall key-fn "ag") 'js3r-add-to-globals-annotation)
+  (define-key js3-mode-map (funcall key-fn "sv") 'js3r-split-var-declaration)
+  (define-key js3-mode-map (funcall key-fn "ef") 'js3r-extract-function)
+  (define-key js3-mode-map (funcall key-fn "em") 'js3r-extract-method)
+  (define-key js3-mode-map (funcall key-fn "ip") 'js3r-introduce-parameter)
+  (define-key js3-mode-map (funcall key-fn "lp") 'js3r-localize-parameter)
+  (define-key js3-mode-map (funcall key-fn "tf") 'js3r-toggle-function-expression-and-declaration)
+  (define-key js3-mode-map (funcall key-fn "ao") 'js3r-arguments-to-object)
+  (define-key js3-mode-map (funcall key-fn "uw") 'js3r-unwrap)
+  (define-key js3-mode-map (funcall key-fn "wl") 'js3r-wrap-in-for-loop)
+  (define-key js3-mode-map (funcall key-fn "3i") 'js3r-ternary-to-if)
+  (define-key js3-mode-map (funcall key-fn "lt") 'js3r-log-this)
+  (define-key js3-mode-map (funcall key-fn "sl") 'js3r-forward-slurp)
+  (define-key js3-mode-map (kbd "<C-S-down>") 'js3r-move-line-down)
+  (define-key js3-mode-map (kbd "<C-S-up>") 'js3r-move-line-up))
 
 ;;;###autoload
-(defun js2r-add-keybindings-with-prefix (prefix)
-  (js2r--add-keybindings (-partial 'js2r--key-pairs-with-prefix prefix)))
+(defun js3r-add-keybindings-with-prefix (prefix)
+  (js3r--add-keybindings (-partial 'js3r--key-pairs-with-prefix prefix)))
 
 ;;;###autoload
-(defun js2r-add-keybindings-with-modifier (modifier)
-  (js2r--add-keybindings (-partial 'js2r--key-pairs-with-modifier modifier)))
+(defun js3r-add-keybindings-with-modifier (modifier)
+  (js3r--add-keybindings (-partial 'js3r--key-pairs-with-modifier modifier)))
 
-(provide 'js2-refactor)
-;;; js2-refactor.el ends here
+(provide 'js3-refactor)
+;;; js3-refactor.el ends here

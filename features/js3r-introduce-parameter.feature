@@ -8,7 +8,7 @@ Feature: Introduce parameter
     }
     abc();
     """
-    And I turn on js2-mode
+    And I turn on js3-mode
     When I go to the front of the word "123"
     And I start an action chain
     And I press "C-c C-m ip"
