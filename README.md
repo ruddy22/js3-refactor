@@ -1,9 +1,13 @@
-# js3-refactor.el [![Build Status](https://secure.travis-ci.org/magnars/js3-refactor.el.png)](http://travis-ci.org/magnars/js3-refactor.el)
+# js3-refactor.el
 
 A JavaScript refactoring library for emacs.
 
 This is a collection of small refactoring functions to further the idea of a
-JavaScript IDE in Emacs that started with js3-mode.
+JavaScript IDE in Emacs that started with js3-mode[1].
+
+[1]: This project is a //js3-mode// fork of original **js2-refactor** written by Magnar Sveen for //js2-mode//.
+     Initially js2 was simply replaced by js3 in all files including this document.
+     So when says js3-mode, it means js2-mode formerly, therefore don't be confused, reading this text below.
 
 ## Breaking change in 0.6.0
 
@@ -25,7 +29,7 @@ It's available on [melpa](http://melpa.milkbox.net/):
 You can also install the dependencies on your own, and just dump
 js3-refactor in your path somewhere:
 
- * js3-mode https://github.com/mooz/js3-mode/
+ * js3-mode https://github.com/thomblake/js3-mode
  * dash https://github.com/magnars/dash.el
  * s https://github.com/magnars/s.el
  * multiple-cursors https://github.com/magnars/multiple-cursors.el
